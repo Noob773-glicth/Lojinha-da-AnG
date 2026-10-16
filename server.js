@@ -1,50 +1,45 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Configurar o Express para aceitar dados de formulários e usar EJS
-app.use(express.urlencoded({ extended: true }));
+// Configurar o EJS e pastas estáticas
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Lista temporária de produtos (funciona como nosso "banco de dados" por enquanto)
+// Lista de produtos em memória (podes alterar ou adicionar mais)
 let produtos = [
-    { id: 1, nome: "Produto Exemplo", preco: "49.90", descricao: "Um produto legal de teste", imagem: "https://via.placeholder.com/150" }
+    {
+        id: 1,
+        nome: "Produto Exemplo",
+        preco: "49.90",
+        imagem: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+    }
 ];
 
-// Rota 1: Página Inicial (Loja - Mostra os produtos)
+// Rota Principal: Lista os produtos
 app.get('/', (req, res) => {
     res.render('index', { produtos });
 });
 
-// Rota 2: Painel do Administrador (Onde você cadastra os produtos)
-app.get('/admin', (req, res) => {
-    res.render('admin', { produtos });
-});
-
-// Rota 3: Cadastrar um novo produto (Recebe os dados do formulário)
-app.post('/cadastrar', (req, res) => {
-    const { nome, preco, descricao, imagem } = req.body;
+// Rota POST: Cria um novo produto
+app.post('/adicionar-produto', (req, res) => {
+    const { nome, preco, imagem } = req.body;
     
-    // Adiciona o novo produto na lista
-    produtos.push({
-        id: produtos.length + 1,
-        nome,
-        preco,
-        descricao,
-        imagem: imagem || "https://via.placeholder.com/150"
-    });
-
-    res.redirect('/admin'); // Redireciona de volta para o painel
+    if (nome && preco) {
+        const novoProduto = {
+            id: Date.now(),
+            nome: nome,
+            preco: parseFloat(preco).toFixed(2),
+            // Se não enviar imagem, usa uma imagem padrão
+            imagem: imagem || "https://via.placeholder.com/300x200?text=Sem+Imagem"
+        };
+        produtos.push(novoProduto);
+    }
+    
+    res.redirect('/');
 });
 
-// Rota 4: Deletar um produto
-app.post('/deletar/:id', (req, res) => {
-    const idParaDeletar = parseInt(req.params.id);
-    produtos = produtos.filter(p => p.id !== idParaDeletar);
-    res.redirect('/admin');
-});
-
-// Iniciar o servidor
 app.listen(PORT, () => {
-    console.log(`Loja rodando com sucesso! Acesse: http://localhost:${PORT}`);
+    console.log(`Servidor a correr na porta ${PORT}`);
 });
