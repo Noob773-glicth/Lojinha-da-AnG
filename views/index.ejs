@@ -5,210 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lojinha da AnG — A tua loja online</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
+        header { background-color: #2c3e50; color: white; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .hero { background: linear-gradient(135deg, #1abc9c, #16a085); color: white; text-align: center; padding: 2.5rem 1rem; }
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; flex: 1; }
+        
+        /* Formulário de Adicionar Produto */
+        .form-container { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2.5rem; }
+        .form-container h3 { margin-bottom: 1rem; color: #2c3e50; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .form-group input { width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: 5px; font-size: 0.95rem; }
+        .btn-add { background-color: #1abc9c; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 1rem; }
+        .btn-add:hover { background-color: #16a085; }
 
-        body {
-            background-color: #f4f6f9;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            font-size: 1.8rem;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 1.5rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        nav a:hover {
-            color: #1abc9c;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #1abc9c, #16a085);
-            color: white;
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-
-        .hero h2 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            flex: 1;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 3rem;
-            color: #2c3e50;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 200px;
-            background-color: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        .product-info {
-            padding: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-price {
-            font-size: 1.25rem;
-            color: #16a085;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .btn-buy {
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: auto;
-            transition: background-color 0.2s;
-        }
-
-        .btn-buy:hover {
-            background-color: #1abc9c;
-        }
-
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            font-size: 0.9rem;
-        }
+        /* Grelha de Produtos */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
+        .product-img { width: 100%; height: 180px; object-fit: cover; background-color: #eee; }
+        .product-info { padding: 1rem; display: flex; flex-direction: column; flex: 1; }
+        .product-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .product-price { font-size: 1.25rem; color: #16a085; font-weight: bold; margin-bottom: 1rem; }
+        .btn-buy { background-color: #2c3e50; color: white; border: none; padding: 0.6rem; border-radius: 5px; cursor: pointer; font-weight: 600; margin-top: auto; }
+        
+        footer { background-color: #2c3e50; color: white; text-align: center; padding: 1.5rem; margin-top: 2rem; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>🛍️ Lojinha da AnG</h1>
-        <nav>
-            <a href="#">Início</a>
-            <a href="#">Produtos</a>
-            <a href="#">Sobre</a>
-            <a href="#">Contacto</a>
-        </nav>
     </header>
 
     <section class="hero">
-        <h2>Bem-vindo à Lojinha da AnG!</h2>
-        <p>Encontra os melhores produtos com os melhores preços.</p>
+        <h2>Painel da Loja & Produtos</h2>
+        <p>Adiciona novos itens e gere o teu catálogo online em tempo real!</p>
     </section>
 
     <main class="container">
-        <h3 class="section-title">Produtos em Destaque</h3>
+        <!-- Formulário para Criar Produto -->
+        <div class="form-container">
+            <h3>➕ Adicionar Novo Produto</h3>
+            <form action="/adicionar-produto" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <input type="text" name="nome" placeholder="Nome do Produto" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" step="0.01" name="preco" placeholder="Preço (ex: 49.90)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="url" name="imagem" placeholder="Link/URL da Imagem (opcional)">
+                    </div>
+                </div>
+                <button type="submit" class="btn-add">Cadastrar Produto</button>
+            </form>
+        </div>
 
+        <!-- Lista de Produtos -->
+        <h3 style="margin-bottom: 1rem; color: #2c3e50;">Produtos Disponíveis</h3>
         <div class="products-grid">
-            <!-- Produto 1 -->
-            <div class="product-card">
-                <div class="product-img">📦</div>
-                <div class="product-info">
-                    <div class="product-title">Brafy</div>
-                    <div class="product-price">R$ 1</div>
-                    <button class="btn-buy">Comprar</button>
-                </div>
-            </div>
-
-            <!-- Produto 2 -->
-            <div class="product-card">
-                <div class="product-img">📦</div>
-                <div class="product-info">
-                    <div class="product-title">Pingu</div>
-                    <div class="product-price">R$ 1</div>
-                    <button class="btn-buy">Comprar</button>
-                </div>
-            </div>
-
-            <!-- Produto 3 -->
-            <div class="product-card">
-                <div class="product-img">📦</div>
-                <div class="product-info">
-                    <div class="product-title">Noob</div>
-                    <div class="product-price">R$ 100</div>
-                    <button class="btn-buy">Comprar</button>
-                </div>
-            </div>
+            <% if (produtos.length > 0) { %>
+                <% produtos.forEach(produto => { %>
+                    <div class="product-card">
+                        <img src="<%= produto.imagem %>" alt="<%= produto.nome %>" class="product-img">
+                        <div class="product-info">
+                            <div class="product-title"><%= produto.nome %></div>
+                            <div class="product-price">R$ <%= produto.preco %></div>
+                            <button class="btn-buy">Comprar</button>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>Nenhum produto cadastrado até ao momento.</p>
+            <% } %>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Lojinha da AnG — Todos os direitos reservados.</p>
+        <p>&copy; 2026 Lojinha da AnG</p>
     </footer>
 
 </body>
