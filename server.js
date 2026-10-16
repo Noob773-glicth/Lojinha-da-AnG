@@ -2,27 +2,27 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configurar o EJS e pastas estáticas
+// Configurar EJS e middlewares
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Lista de produtos em memória (podes alterar ou adicionar mais)
+// Lista inicial com o produto Brafy
 let produtos = [
     {
         id: 1,
-        nome: "Produto Exemplo",
-        preco: "49.90",
-        imagem: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+        nome: "Brafy",
+        preco: "1.00",
+        imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe3Gho1aca7L6KzoliEA2UK02Zs1F7jkJngoBhcV9PvQ&s=10"
     }
 ];
 
-// Rota Principal: Lista os produtos
+// Rota Principal: Exibe a lista de produtos
 app.get('/', (req, res) => {
     res.render('index', { produtos });
 });
 
-// Rota POST: Cria um novo produto
+// Rota POST: Adiciona um novo produto
 app.post('/adicionar-produto', (req, res) => {
     const { nome, preco, imagem } = req.body;
     
@@ -31,12 +31,18 @@ app.post('/adicionar-produto', (req, res) => {
             id: Date.now(),
             nome: nome,
             preco: parseFloat(preco).toFixed(2),
-            // Se não enviar imagem, usa uma imagem padrão
             imagem: imagem || "https://via.placeholder.com/300x200?text=Sem+Imagem"
         };
         produtos.push(novoProduto);
     }
     
+    res.redirect('/');
+});
+
+// Rota POST: Elimina um produto pelo ID
+app.post('/deletar-produto/:id', (req, res) => {
+    const idParaDeletar = Number(req.params.id);
+    produtos = produtos.filter(p => p.id !== idParaDeletar);
     res.redirect('/');
 });
 
