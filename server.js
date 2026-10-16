@@ -7,7 +7,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Lista inicial com o produto Brafy
+// Produto de exemplo inicial: Brafy (R$ 1.00)
 let produtos = [
     {
         id: 1,
@@ -39,7 +39,7 @@ app.post('/adicionar-produto', (req, res) => {
     res.redirect('/');
 });
 
-// Rota POST: Elimina um produto pelo ID
+// Rota POST: Elimina/Apaga um produto pelo ID
 app.post('/deletar-produto/:id', (req, res) => {
     const idParaDeletar = Number(req.params.id);
     produtos = produtos.filter(p => p.id !== idParaDeletar);
