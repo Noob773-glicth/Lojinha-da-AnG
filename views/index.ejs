@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lojinha da AnG</title>
+    <title>Lojinha da AnG — Gestão de Produtos</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f6f9; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
@@ -19,9 +19,27 @@
         .btn-add { background-color: #1abc9c; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 1rem; }
         .btn-add:hover { background-color: #16a085; }
 
-        /* Grelha de Produtos */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
-        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
+        /* Lista de Produtos LADO A LADO */
+        .products-horizontal {
+            display: flex;
+            flex-direction: row;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            min-width: 260px;
+            max-width: 260px;
+            flex-shrink: 0;
+        }
+
         .product-img { width: 100%; height: 180px; object-fit: cover; background-color: #eee; }
         .product-info { padding: 1rem; display: flex; flex-direction: column; flex: 1; }
         .product-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
@@ -66,9 +84,9 @@
             </form>
         </div>
 
-        <!-- Lista de Produtos -->
+        <!-- Lista de Produtos Lado a Lado -->
         <h3 style="margin-bottom: 1rem; color: #2c3e50;">Produtos Disponíveis</h3>
-        <div class="products-grid">
+        <div class="products-horizontal">
             <% if (produtos.length > 0) { %>
                 <% produtos.forEach(produto => { %>
                     <div class="product-card">
